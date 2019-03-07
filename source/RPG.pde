@@ -71,19 +71,14 @@ void draw() {
         //text((stopTime - startTime)/1000, location.x + dir.x/2, mouse.y + 40);
       }
     }
-
-
-
-    //angleBetween
-
-
-
-
+    
     //equation de droite
     location2.y = (m * location2.x) + p;
+    
+    //calcul temps
     T = (stopTime - startTime)/1000;
-    float a = PVector.angleBetween(location, mouse);
-    println(degrees(a), " and ", d/T, "px/s", " and ", t);
+    
+    //println(degrees(a), " and ", d/T, "px/s", " and ", t);
   }
 }
 

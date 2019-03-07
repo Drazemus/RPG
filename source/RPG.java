@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class code extends PApplet {
+public class RPG extends PApplet {
 
 
 //Variable de location
@@ -87,19 +87,14 @@ public void draw() {
         //text((stopTime - startTime)/1000, location.x + dir.x/2, mouse.y + 40);
       }
     }
-
-
-
-    //angleBetween
-
-
-
-
+    
     //equation de droite
     location2.y = (m * location2.x) + p;
+    
+    //calcul temps
     T = (stopTime - startTime)/1000;
-    float a = PVector.angleBetween(location, mouse);
-    println(degrees(a), " and ", d/T, "px/s", " and ", t);
+    
+    //println(degrees(a), " and ", d/T, "px/s", " and ", t);
   }
 }
 
@@ -133,7 +128,7 @@ class Boule
 }
   public void settings() {  size(900, 900); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "code" };
+    String[] appletArgs = new String[] { "RPG" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
