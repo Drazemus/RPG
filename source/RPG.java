@@ -16,115 +16,100 @@ public class RPG extends PApplet {
 
 
 //Variable de location
-PVector location = new PVector(900/2, 900/2);
-PVector location2 = new PVector(900/2, 900/2);
-PVector mouse;
-PVector dir;
-PImage salle;
 
+PImage salle;
+Hero toto=new Hero();
 //detection du click
 boolean click = false;
 
-//Variable calcul utile
-float m;
-float p;
-float s = 500;
-float t;
-float d;
-float T;
-float a;
-float incr;
 
-//variable de temps
-float startTime;
-float stopTime;
+
+float incr;
 
 public void setup() {
   
   background(125);
   salle = loadImage("salle test.PNG");
   salle.resize(900, 900);
-
-  //initialisation du temps
-  startTime = millis();
 }
 
 public void draw() {
-  background(salle);
-  //ellipse(location.x, location.y, 10, 10);
-
+   background(salle);
   //personnage  
-  fill(0); 
-  ellipse(location2.x, location2.y, 80, 80);
-
-  //action click 
-  if (click == true) {
-    d = sqrt(pow(dir.x, 2) + pow(dir.y, 2));
-    if ( d < 0) d = d*-1;
-    s = 10;
-    fill(0);
-    //ellipse(mouse.x, mouse.y, 10, 10);
-    //ellipse(location.x, location.y + dir.y, 10, 10);
-    //line(location.x, location.y, location.x, location.y + dir.y);//dy
-    //line(location.x, location.y, mouse.x, mouse.y);
-    //line(location.x, location.y + dir.y, mouse.x, mouse.y);//dx
-    //text(abs(dir.y), location.x + dir.x/2, mouse.y + 20);
-    t = d/s;
-    incr = dir.x/t;
-    m = dir.y / dir.x;
-    p = location.y - ( m * location.x);
-    if (mouse.x < location.x && mouse.x != location2.x && mouse.x < location2.x) {
-      location2.x += incr;
-      if (location2.x <= mouse.x) {
-        stopTime = millis();
-        //text((stopTime - startTime)/1000, location.x + dir.x/2, mouse.y + 40);
-      }
-    }
-    if (mouse.x > location.x && mouse.x != location2.x && mouse.x > location2.x) {
-      location2.x += incr;
-      if (location2.x >= mouse.x) {
-        stopTime = millis();
-        //text((stopTime - startTime)/1000, location.x + dir.x/2, mouse.y + 40);
-      }
-    }
-    
-    //equation de droite
-    location2.y = (m * location2.x) + p;
-    
-    //calcul temps
-    T = (stopTime - startTime)/1000;
-    
-    //println(degrees(a), " and ", d/T, "px/s", " and ", t);
-  }
+   toto.display();
+   toto.update(click);
+   if (mouseButton == RIGHT) click=toto.onclick();
 }
 
 public void mousePressed() {
-  if (mouseButton == RIGHT) {
-    startTime = millis();
+  //if (mouseButton == RIGHT) click=toto.onclick();
+}
+class Hero
+{
+  private
+  PVector location = new PVector(900/2, 900/2);//point d\u00e9part
+  PVector location2 = new PVector(900/2, 900/2);//point actuel
+  PVector mouse;// point d'arriv\u00e9e
+  
+  PVector dir;//point d'arriv\u00e9e - point depart
+  
+  //Variable calcul utile
+  float m;
+  float p;
+  float s;
+  float t;
+  float d;
+  float T;
+  boolean etat=false;
+  
+  public
+  
+  void display()
+  {
+    fill(0);
+    ellipse((int)location2.x, (int)location2.y, 80, 80);
+    println((int)location2.x);
+  }
+
+  public void update(boolean clicky)
+  {
+    //action click 
+    if (clicky == true) {
+      d = sqrt(pow(dir.x, 2) + pow(dir.y, 2));
+      
+      if ( d < 0) d = d*-1;
+      
+      s=5;
+
+      t = d/s;
+      incr = dir.x/t;
+      m = dir.y / dir.x;
+      p = location.y - ( m * location.x);
+      
+      if (mouse.x < location.x && mouse.x != location2.x && mouse.x < location2.x) {
+        location2.x += incr;
+        if ((location2.x + incr) > mouse.x) incr = 0;
+      }
+      if (mouse.x > location.x && mouse.x != location2.x && mouse.x > location2.x) {
+        location2.x += incr;
+        if ((location2.x - incr) < mouse.x) incr = 0;
+      }
+
+      //equation de droite
+      location2.y = (m * location2.x) + p;
+    }
+  }
+  
+  public boolean onclick()
+  {
     location.x = location2.x;
     location.y = location2.y;
-    click = true;
     mouse = new PVector(mouseX, mouseY);
+    println((int)mouse.x);
     dir = PVector.sub(mouse, location);
+    return true;
   }
-}
-class Boule
-{
-  private 
-    int x;
-    int y;
-  public 
-    Boule(int init_posx, int init_posy)
-  {
-    x=init_posx;
-    y=init_posy;
-  }
-  public int deplacement(int mx, int my)
-  {
-    int vx=mx-x;
-    int vy=my-y;
-    return x;
-  }
+  
 }
   public void settings() {  size(900, 900); }
   static public void main(String[] passedArgs) {
