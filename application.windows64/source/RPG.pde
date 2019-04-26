@@ -1,3 +1,4 @@
+PImage test;
 PImage curseur;
 
 int controle[]=new int[7];
@@ -10,17 +11,11 @@ ArrayList<Bullet> bullets;
 //detection du click
 boolean click = false;
 
-boolean affichageSalle = false;
-
-boolean remove = false;
-
 void setup() {
 
   //on enlève la souris pour ajouter notre propre curseur
   noCursor();
-  
-  genereSalles();
-  
+
   //definition propriété de l'affichage
   size(900, 900);
   background(125);
@@ -29,28 +24,30 @@ void setup() {
   bullets = new ArrayList();
 
   //chargement et resize des images
+  test = loadImage("1porte.PNG");
   curseur = loadImage("curseur.PNG");
   curseur.resize(75, 75);
 }
 
 void draw() {
-    
-  if(salle.tpD()==true || salle.tpG() == true || salle.tpH() == true || salle.tpB() == true)affichageSalle = true;
-  if(salle.tpD()==true || salle.tpG() == true || salle.tpH() == true || salle.tpB() == true)bullets.clear();
+
+  background(test);
   
-  if(affichageSalle == true)background(Salles[salle.sortieH()][salle.nombre()]);
-  else background(SallesG[0]);
+  //print(hero.coord());
   
+  fill(0, 0, 255);
+  rect(860, 330, 40, 240);
+
   //controle souris
   controle();
   //personnage  
   hero.display();
-  hero.update(click, salle.tpD(),salle.tpG(),salle.tpH(),salle.tpB(),salle.sortieH(),salle.nombre());
+  hero.update(click, salle.tp());
 
   //salle en fond
   salle.display();
   salle.update(hero.coord());
- 
+
   for (Bullet bullet : bullets) {
     bullet.update();
     bullet.display();
@@ -74,24 +71,7 @@ void mouseReleased() {
   if (mouseButton == RIGHT)controle[2]=0;
 }
 
-void keyPressed(){
-  if (keyCode == 'A')controle[3]=1;
-}
-
-void keyReleased(){
-  if (keyCode == 'A')controle[3]=0;
-}
-
 void controle() {
-  if (controle[1] == 1 || controle[3] == 1){
-    PVector mouse = new PVector(mouseX, mouseY);
-    if (frameCount%5==0) {
-        PVector dir = PVector.sub(mouse, hero.coord());
-        dir.normalize();
-        dir.mult(9);
-        Bullet bullet = new Bullet(hero.coord(), dir);
-        bullets.add(bullet);
-      }
-  }
+  if (controle[1] == 1) bullets.add(new Bullet(hero.coord()));
   if (controle[2] == 1)click = hero.onclickH();
 }
