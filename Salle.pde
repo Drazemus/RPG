@@ -1,3 +1,5 @@
+PImage portal1;
+PImage portal2;
 
 PImage[] SallesD = new PImage[8];
 PImage[] SallesG = new PImage[8];
@@ -46,6 +48,10 @@ void genereSalles(){
   SallesB[5] = loadImage("3portesD.png");
   SallesB[6] = loadImage("3portesG.png");
   SallesB[7] = loadImage("4portes.png");
+  
+  portal1 = loadImage("portail1.png");
+  portal2 = loadImage("portail2.png");
+  portal2.resize(240,50);
 
 }
 
@@ -58,8 +64,6 @@ class Salle {
   boolean G = false;
   boolean H = false;
   boolean B = false;
-  int h = 240;
-  int l = 10;
   int nb = 0;
   int sortie = 1;
   
@@ -86,59 +90,60 @@ class Salle {
     return sortie;
   }
 
-  void display(){
+  void display(int nbE){
     
     fill(0,0,255);
     
-    if ((sortie == 0 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 3 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 1 && ( nb == 3 || nb == 4 || nb == 6)) || nb == 7)rect(0, 330, l, h);  //portail G 0
-    if ((sortie == 1 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 3 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 1 || nb == 4 || nb == 5)) || nb == 7)rect(890, 330, l, h);//portail D 1
-    if ((sortie == 2 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 1 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 1 || nb == 4 || nb == 5)) || (sortie == 3 && ( nb == 1 || nb == 5 || nb == 6)) || nb == 7)rect(330, 890, h, l);//portail B 2
-    if ((sortie == 3 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 2 && ( nb == 2 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 2 || nb == 4 || nb == 5)) || (sortie == 0 && ( nb == 3 || nb == 5 || nb == 6)) || nb == 7)rect(330, 0, h, l);  //portail H 3
+    imageMode(CORNER);
+    portal1.resize(50,240);
+    if(nbE == 0){
+      if ((sortie == 0 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 3 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 1 && ( nb == 3 || nb == 4 || nb == 6)) || nb == 7)image(portal1,-10, 330);  //portail G 0
+      if ((sortie == 1 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 3 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 1 || nb == 4 || nb == 5)) || nb == 7)image(portal1,860, 330);//portail D 1
+      if ((sortie == 2 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 1 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 1 || nb == 4 || nb == 5)) || (sortie == 3 && ( nb == 1 || nb == 5 || nb == 6)) || nb == 7)image(portal2,330, 860);//portail B 2
+      if ((sortie == 3 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 2 && ( nb == 2 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 2 || nb == 4 || nb == 5)) || (sortie == 0 && ( nb == 3 || nb == 5 || nb == 6)) || nb == 7)image(portal2,330, -10);  //portail H 3
+    }
   }
   
-  void update(PVector hero){
+  void update(PVector hero, int nbE){
     
     //importation de la position du hero
     locationH.x=hero.x;
     locationH.y=hero.y;
     
     //test zone de tp
-    if ((sortie == 1 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 3 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 1 || nb == 4 || nb == 5)) || nb == 7){
-      
-      if(locationH.x > 860 && (locationH.y > 330 && locationH.y < 570)){
-        D = true;
-        nb=(int)random(8);
-        print("D");
-        sortie = 0;
+    if(nbE == 0){
+      if ((sortie == 1 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 3 && ( nb == 2 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 1 || nb == 4 || nb == 5)) || nb == 7){
+        
+        if(locationH.x > 860 && (locationH.y > 330 && locationH.y < 570)){
+          D = true;
+          nb=(int)random(8);
+          sortie = 0;
+        }
+      }
+      if ((sortie == 0 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 3 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 1 && ( nb == 3 || nb == 4 || nb == 6)) || nb == 7){
+        if(locationH.x < 40 && (locationH.y > 330 && locationH.y < 570)){
+          G = true;
+          nb=(int)random(8);
+          sortie = 1;
+        }
+      }
+      if ((sortie == 3 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 2 && ( nb == 2 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 2 || nb == 4 || nb == 5)) || (sortie == 0 && ( nb == 3 || nb == 5 || nb == 6)) || nb == 7){  
+        if(locationH.y < 40 && (locationH.x > 330 && locationH.x < 570)){
+          H = true;
+          nb=(int)random(8);
+          sortie = 2;
+        }
+      }
+      if ((sortie == 2 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 1 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 1 || nb == 4 || nb == 5)) || (sortie == 3 && ( nb == 1 || nb == 5 || nb == 6)) || nb == 7){  
+        if(locationH.y > 860 && (locationH.x > 330 && locationH.x < 570)){
+          B = true;
+          nb=(int)random(8);
+          sortie = 3;
+        }
       }
     }
-    if ((sortie == 0 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 3 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 2 && ( nb == 3 || nb == 4 || nb == 6)) || (sortie == 1 && ( nb == 3 || nb == 4 || nb == 6)) || nb == 7){
-      if(locationH.x < 40 && (locationH.y > 330 && locationH.y < 570)){
-        G = true;
-        nb=(int)random(8);
-        print("G");
-        sortie = 1;
-      }
-  }
-  if ((sortie == 3 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 2 && ( nb == 2 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 2 || nb == 4 || nb == 5)) || (sortie == 0 && ( nb == 3 || nb == 5 || nb == 6)) || nb == 7){  
-      if(locationH.y < 40 && (locationH.x > 330 && locationH.x < 570)){
-        H = true;
-        nb=(int)random(8);
-        print("H");
-        sortie = 2;
-      }
-  }
-  if ((sortie == 2 && ( nb == 0 || nb == 1 || nb == 2 || nb == 3 || nb == 4 || nb == 5 || nb == 6)) || (sortie == 1 && ( nb == 1 || nb == 5 || nb == 6)) || (sortie == 0 && ( nb == 1 || nb == 4 || nb == 5)) || (sortie == 3 && ( nb == 1 || nb == 5 || nb == 6)) || nb == 7){  
-      if(locationH.y > 860 && (locationH.x > 330 && locationH.x < 570)){
-        B = true;
-        nb=(int)random(8);
-        print("B");
-        sortie = 3;
-      }
-  }
     
-    //Au click le personnage peut se deplacer de nouveau
-    if (mousePressed == true)if(mouseButton == RIGHT){
+    if(mousePressed == true && mouseButton == RIGHT){
       D = false;
       G = false;
       H = false;

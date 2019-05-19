@@ -5,6 +5,8 @@ class Hero {
   PVector mouse;// point d'arrivée
 
   PVector dir;//point d'arrivée - point depart
+  
+  PImage Hero;
 
   //Variable calcul utile
   float m;
@@ -13,38 +15,73 @@ class Hero {
   float t;
   float d;
   float incr;
+  float angle;
+  boolean tp;
   
   public
 
-    PVector coord() {
+  PVector coord() {
     return locationH;
   }
-
+  
   void display() {
+    Hero = loadImage("preview_idle.png");
     //line(locationH.x, locationH.y, mouseX, mouseY);
     fill(0);
-    ellipse((int)locationH.x, (int)locationH.y, 80, 80);
-    //println((int)locationH.x);
+    Hero.resize(140,140);
+    angle = atan2(mouseY-(int)locationH.y, mouseX-(int)locationH.x);
+    pushMatrix();
+    rectMode(CENTER);
+    imageMode(CENTER);
+    translate((int)locationH.x, (int)locationH.y);
+    rotate(angle);
+    image(Hero, 0, 0);
+    popMatrix();
+    rectMode(CORNER);
   }
 
   void update(boolean clicky, boolean teleD, boolean teleG, boolean teleH, boolean teleB, int sortie, int nb) {
-    print(locationH.x,"   ");
+    
     //action click
+     
     if(teleD == true){
       locationH.x = 50;
       locationH.y = 450;
+      location.x = locationH.x;
+      location.y = locationH.y;
+      mouse = new PVector(mouseX, mouseY);
+      dir = PVector.sub(mouse, location);
+      //teleD = false;
     }
+    
     if(teleG == true){
       locationH.x = 850;
       locationH.y = 450;
+      location.x = locationH.x;
+      location.y = locationH.y;
+      mouse = new PVector(mouseX, mouseY);
+      dir = PVector.sub(mouse, location);
+      //teleG = false;
     }
+    
     if(teleH == true){
       locationH.x = 450;
       locationH.y = 850;
+      location.x = locationH.x;
+      location.y = locationH.y;
+      mouse = new PVector(mouseX, mouseY);
+      dir = PVector.sub(mouse, location);
+      //teleH = false;
     }
+    
     if(teleB == true){
       locationH.x = 450;
       locationH.y = 50;
+      location.x = locationH.x;
+      location.y = locationH.y;
+      mouse = new PVector(mouseX, mouseY);
+      dir = PVector.sub(mouse, location);
+      //teleB = false;
     }
     
     if (clicky == true && (teleD == false && teleG == false && teleH == false && teleB == false)) {
@@ -110,13 +147,12 @@ class Hero {
     }   
     
   }
-
+  
   boolean onclickH() {
     location.x = locationH.x;
     location.y = locationH.y;
     mouse = new PVector(mouseX, mouseY);
-    //println((int)mouse.x);
     dir = PVector.sub(mouse, location);
     return true;
-  }
+  } 
 }
